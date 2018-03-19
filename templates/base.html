@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+    <meta charset="utf-8" />
+    <link type="text/css" rel="stylesheet" href="/static/app.css" />
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../static/bootstrap.min.css">
+
+
+    <script type="text/javascript">
+        function picChange(evt) {
+            //bring selected photo in
+            //get files captured through input
+            var fileInput = evt.target.files;
+            if (fileInput.length > 0) {
+                //get the file
+                //window url
+                var windowURL = window.URL || window.webkitURL;
+                //picture url
+                var picURL = windowURL.createObjectURL(fileInput[0]);
+                //get canvas
+                var photoCanvas = document.getElementById("capturedPhoto");
+                var ctx = photoCanvas.getContext("2d");
+                //create image
+                var photo = new Image();
+                photo.onload = function () {
+                    //draw photo into canvas when ready
+                    ctx.drawImage(photo, 0, 0, 500, 400);
+                };
+                //load photo into canvas
+                photo.src = picURL;
+                //release object url
+                windowURL.revokeObjectURL(picURL);
+            }
+        }
+        
+
+    </script>
+    <title>Tongue Diagnosis Demo</title>
+</head>
+
+<body>
+    <hr>
+
+    <div class="input-group mb-3 upload-box">
+        <h2>Tongue Diagnosis Demo</h2>
+        <hr>
+        <p>Choose a tongue picture from your device or capture one with your camera:</p>
+        <hr>
+        <form action="/" method="post" enctype="multipart/form-data">
+            <div class="custom-file">
+                <input class="custom-file-input" id="upload" type="file" name="file" accept="image/*" onchange="picChange(event)" />
+                <label class="custom-file-label" for="upload">{{ picName }}</label>
+            </div>
+            <hr>
+            <div class="input-group-append">
+                 <input class="input-group-text" type="submit" name="Upload">
+            </div>
+        </form>
+    </div>
+
+    <div class="upload-box">
+        <canvas id="capturedPhoto" width="500" height="400" class="img-fluid"></canvas>
+    </div>
+    <div class="diagnosis-list">
+        <ul class="list-group">
+
+            {% for num in results[0] %} {% if (num != results[0]|max) %}
+            <li class="list-group-item disabled">{{ labelDict[0][loop.index0] }}(概率:{{ results[0][loop.index0] }})</li>
+            {% else %}
+            <li class="list-group-item active">{{ labelDict[0][loop.index0] }}(概率:{{ results[0][loop.index0] }})</li>
+            {% endif %} {% endfor %}
+        </ul>
+
+        <ul class="list-group">
+
+            {% for num in results[1] %} {% if (num != results[1]|max) %}
+            <li class="list-group-item disabled">{{ labelDict[1][loop.index0] }}(概率:{{ results[1][loop.index0] }})</li>
+            {% else %}
+            <li class="list-group-item active">{{ labelDict[1][loop.index0] }}(概率:{{ results[1][loop.index0] }})</li>
+            {% endif %} {% endfor %}
+        </ul>
+
+        <ul class="list-group">
+
+            {% for num in results[2] %} {% if (num != results[2]|max) %}
+            <li class="list-group-item disabled">{{ labelDict[2][loop.index0] }}(概率:{{ results[2][loop.index0] }})</li>
+            {% else %}
+            <li class="list-group-item active">{{ labelDict[2][loop.index0] }}(概率:{{ results[2][loop.index0] }})</li>
+            {% endif %} {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="/static/jquery-3.2.1.slim.min.js"></script>
+    <script src="/static/popper.min.js"></script>
+    <script src="/static/bootstrap.min.js"></script>
+    <script>
+        var context = document.getElementById('capturedPhoto').getContext("2d");
+        var img = new Image();
+        img.onload = function () {
+            context.drawImage(img, 0, 0, 500, 400);
+        };
+        {#img.src = "images/st.jpg";#}
+        img.src = "images/" + document.getElementsByClassName("custom-file-label")[0].innerText;
+    </script>
+</body>
+
+</html>

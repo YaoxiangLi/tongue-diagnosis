@@ -1,0 +1,19 @@
+h2 {
+    text-align: center;
+}
+
+canvas {
+    background-color: #fff;
+    border-radius: 8px;
+}
+
+.diagnosis-list {
+    padding-left: 8%;
+    padding-right: 8%;
+}
+
+.upload-box {
+    padding-left: 8%;
+    padding-right: 8%;
+    text-align: center;
+}
