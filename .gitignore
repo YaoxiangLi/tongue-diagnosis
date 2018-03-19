@@ -108,8 +108,5 @@ processedData/
 models/
 *.h5
 
-# pycharm files
-.idea/
-
 # web images
 images/
