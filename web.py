@@ -93,5 +93,5 @@ def serve_images(filename):
     return send_from_directory(os.path.join(root_dir, 'images'), filename)
 
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+#if __name__ == '__main__':
+#    app.run(host='0.0.0.0')
