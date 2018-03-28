@@ -2,11 +2,14 @@
 <html lang='en'>
 
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8">
     <link type="text/css" rel="stylesheet" href="/static/app.css" />
     <!-- Required meta tags -->
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta id="labelDict" data-name="{{ labelDict }}">
+    <meta id="results" data-name="{{ results }}">
+    <meta id="picName" data-name="{{ picName }}">
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="../static/bootstrap.min.css">
@@ -41,16 +44,17 @@
         
 
     </script>
-    <title>Tongue Diagnosis Demo</title>
+    <title>方子智能</title>
 </head>
 
 <body>
     <hr>
 
     <div class="input-group mb-3 upload-box">
-        <h2>Tongue Diagnosis Demo</h2>
+        <h3>方子智能 舌诊demo</h3>
         <hr>
-        <p>Choose a tongue picture from your device or capture one with your camera:</p>
+{#        <p>Choose a tongue picture from your device or capture one with your camera:</p>#}
+        <p><i>请从相册选择或拍照上传您的照片：</i></p>
         <hr>
         <form action="/" method="post" enctype="multipart/form-data">
             <div class="custom-file">
@@ -59,7 +63,11 @@
             </div>
             <hr>
             <div class="input-group-append">
-                 <input class="input-group-text" type="submit" name="Upload">
+                 <input class="btn btn-light" type="submit" name="Upload">
+                <button class="btn btn-light" type="button" onclick="myfunction()">进入问诊</button>
+            </div>
+            <div class="input-group-append">
+
             </div>
         </form>
     </div>
@@ -71,27 +79,27 @@
         <ul class="list-group">
 
             {% for num in results[0] %} {% if (num != results[0]|max) %}
-            <li class="list-group-item disabled">{{ labelDict[0][loop.index0] }}(概率:{{ results[0][loop.index0] }})</li>
+            <li class="list-group-item disabled">{{ labelDict[0][loop.index0] }}<!--(概率:{{ results[0][loop.index0] }})--></li>
             {% else %}
-            <li class="list-group-item active">{{ labelDict[0][loop.index0] }}(概率:{{ results[0][loop.index0] }})</li>
+            <li class="list-group-item active">{{ labelDict[0][loop.index0] }}<!--(概率:{{ results[0][loop.index0] }})--></li>
             {% endif %} {% endfor %}
         </ul>
 
         <ul class="list-group">
 
             {% for num in results[1] %} {% if (num != results[1]|max) %}
-            <li class="list-group-item disabled">{{ labelDict[1][loop.index0] }}(概率:{{ results[1][loop.index0] }})</li>
+            <li class="list-group-item disabled">{{ labelDict[1][loop.index0] }}<!--(概率:{{ results[1][loop.index0] }})--></li>
             {% else %}
-            <li class="list-group-item active">{{ labelDict[1][loop.index0] }}(概率:{{ results[1][loop.index0] }})</li>
+            <li class="list-group-item active">{{ labelDict[1][loop.index0] }}<!--(概率:{{ results[1][loop.index0] }})--></li>
             {% endif %} {% endfor %}
         </ul>
 
         <ul class="list-group">
 
             {% for num in results[2] %} {% if (num != results[2]|max) %}
-            <li class="list-group-item disabled">{{ labelDict[2][loop.index0] }}(概率:{{ results[2][loop.index0] }})</li>
+            <li class="list-group-item disabled">{{ labelDict[2][loop.index0] }}<!--(概率:{{ results[2][loop.index0] }})--></li>
             {% else %}
-            <li class="list-group-item active">{{ labelDict[2][loop.index0] }}(概率:{{ results[2][loop.index0] }})</li>
+            <li class="list-group-item active">{{ labelDict[2][loop.index0] }}<!--(概率:{{ results[2][loop.index0] }})--></li>
             {% endif %} {% endfor %}
         </ul>
     </div>
@@ -109,6 +117,21 @@
         };
         {#img.src = "images/st.jpg";#}
         img.src = "images/" + document.getElementsByClassName("custom-file-label")[0].innerText;
+    </script>
+    <script>
+        var myVar;
+
+        function myfunction() {
+            var labelDict = $('#labelDict').data()["name"];
+            var results = $('#results').data()["name"];
+            var picName = $('#picName').data()["name"];
+
+            console.log(labelDict, results, picName);
+            //myVar = setTimeout(redirect, 3000);
+            }
+        function redirect() {
+            window.location.href = "http://47.104.164.104:8080/FangZiZhiNeng/?td=舌色紫,是,舌苔白,是,有齿痕,不是";
+        }
     </script>
 </body>
 

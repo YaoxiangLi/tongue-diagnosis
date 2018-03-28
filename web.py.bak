@@ -9,7 +9,7 @@ from .src import util
 from .src import dataPreprocess
 
 
-def stDiagnose(imgPath):
+def st_diagnose(imgPath):
     print("predicting: " + imgPath)
     x = util.getImageMatrix(imgPath)
     x = dataPreprocess.preprocessImgMatrix(x)
@@ -73,7 +73,7 @@ def home():
             # image_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             image_path = '/home/bach/tongue-diag/web/images/' + filename
             file.save(image_path)
-            res = stDiagnose(image_path)
+            res = st_diagnose(image_path)
             # return redirect(url_for('predict'))
             return render_template('base.html', results=res, labelDict=labelDict)
 
@@ -99,14 +99,14 @@ def home():
 @app.route('/predict', methods=['GET'])
 def predict():
     path = 'images/' + request.args.get('img')
-    result = stDiagnose(path)
+    result = st_diagnose(path)
     result = json.dumps(result)
     print(result)
     return result
 
 # imgPath = '/home/bach/tongue-diag/web/images/st.jpg'
-# res = stDiagnose(imgPath)
-# print(stDiagnose('./images/st.jpg'))
+# res = st_diagnose(imgPath)
+# print(st_diagnose('./images/st.jpg'))
 
 
 if __name__ == '__main__':
