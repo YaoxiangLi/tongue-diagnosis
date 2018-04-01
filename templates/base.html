@@ -64,7 +64,7 @@
             <hr>
             <div class="input-group-append">
                  <input class="btn btn-light" type="submit" name="Upload">
-                <button class="btn btn-light" type="button" onclick="myfunction()">进入问诊</button>
+                <button class="btn btn-light" type="button" onclick="prevAnswer()">进入问诊</button>
             </div>
             <div class="input-group-append">
 
@@ -119,18 +119,49 @@
         img.src = "images/" + document.getElementsByClassName("custom-file-label")[0].innerText;
     </script>
     <script>
-        var myVar;
 
-        function myfunction() {
-            var labelDict = $('#labelDict').data()["name"];
-            var results = $('#results').data()["name"];
-            var picName = $('#picName').data()["name"];
-
-            console.log(labelDict, results, picName);
-            //myVar = setTimeout(redirect, 3000);
+        function indexOfMax(arr) {
+            if (arr.length === 0) {
+                return -1;
             }
-        function redirect() {
-            window.location.href = "http://47.104.164.104:8080/FangZiZhiNeng/?td=舌色紫,是,舌苔白,是,有齿痕,不是";
+
+            var max = arr[0];
+            var maxIndex = 0;
+
+            for (var i = 1; i < arr.length; i++) {
+                if (arr[i] > max) {
+                    maxIndex = i;
+                    max = arr[i];
+                }
+            }
+
+            return maxIndex;
+        }
+
+        function prevAnswer() {
+            var results = $('#results').data()["name"];
+            var ans0 = "不是";
+            var ans1 = "不是";
+            var ans2 = "不是";
+
+            if (indexOfMax(results[0]) === 2) {
+                ans0 = "是";
+            }
+
+            if (indexOfMax(results[1]) === 2) {
+                ans1 = "是";
+            }
+
+            if (indexOfMax(results[2]) === 1) {
+                ans2 = "是"
+            }
+
+            var str = "http://47.104.164.104:8080/FangZiZhiNeng/?td=" + "舌色紫," + ans0 + ",舌苔白," + ans1 + ",有齿痕," + ans2;
+            //console.log(str);
+            redirect(str);
+        }
+        function redirect(str) {
+            window.location.href = str;
         }
     </script>
 </body>

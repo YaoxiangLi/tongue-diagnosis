@@ -17,7 +17,7 @@ for n in range(3):
     models.append(cnnModel.loadModelFromFile(modelPath + 'dataType' + str(n) + '-epoch45-size256.h5'))
 
 
-# Diagnose a tongue picture
+# Diagnose a tongue pictures
 def st_diagnose(img_path):
     print("predicting: " + img_path)
     x = util.getImageMatrix(img_path)
