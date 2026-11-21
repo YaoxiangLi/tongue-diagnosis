@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from scipy import misc
+from PIL import Image
 from scipy import ndimage
 import numpy as np
 import os
@@ -34,7 +34,7 @@ def filterOnePic(x):
 
 
 def preprocessImgMatrix(x):
-    r_img = misc.imresize(x, [imgLength, imgLength], interp='nearest')
+    r_img = np.asarray(util.as_pil_image(x).resize((imgLength, imgLength), Image.Resampling.NEAREST))
     r_img = r_img[compressLen:imgLength - compressLen,
                   compressLen:imgLength - compressLen]
     return r_img
@@ -63,9 +63,9 @@ def augment(x, img_name):
     label = transferLabel(label)
     # filterOnePic(rimg)  # 过滤
     for rotateIndex in range(4):
-        misc.imsave(tgtDir + label + '-' + img_name[:i - 1] + '-' + str(rotateIndex) + '.jpg', rimg)
-        misc.imsave(tgtDir + label + '-' + img_name[:i - 1] + '-r' + str(rotateIndex) + '.jpg',
-                    flipImageMatrix(rimg))  # 镜像
+        util.matrix2image(rimg, tgtDir + label + '-' + img_name[:i - 1] + '-' + str(rotateIndex) + '.jpg')
+        util.matrix2image(flipImageMatrix(rimg),
+                          tgtDir + label + '-' + img_name[:i - 1] + '-r' + str(rotateIndex) + '.jpg')  # 镜像
         rimg = ndimage.rotate(rimg, 90)  # 翻转
 
 
@@ -146,7 +146,7 @@ def filterPic():
             x = util.getImageMatrix(oriDir + fn + '/' + imgName)
             filterOnePic(x)
             print('saved to: ', tgtDir + fn)
-            misc.imsave(tgtDir + fn, x)
+            util.matrix2image(x, tgtDir + fn)
 
             # getFilterRange()
             # 压缩和旋转图片()

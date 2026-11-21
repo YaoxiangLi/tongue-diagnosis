@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import dataPreprocess
-import cnnModel
+from . import dataPreprocess, cnnModel
 
 epoch = 35
 dataType = 1

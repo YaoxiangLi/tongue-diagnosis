@@ -5,7 +5,7 @@ import os.path
 import subprocess
 import os
 import shutil
-from scipy import misc
+from PIL import Image
 import time
 import sys
 
@@ -71,8 +71,17 @@ def getImageMatrix(path):
         x = np.asarray(x, dtype=np.float32)
     return x
 
-def matrix2image(m,path):
-    misc.imsave(path, m)
+def as_pil_image(matrix):
+    # Legacy scipy.misc converted non-byte arrays to the full byte range.
+    if matrix.dtype != np.uint8:
+        low, high = matrix.min(), matrix.max()
+        scale = 255.0 / (float(high - low) or 1.0)
+        matrix = ((matrix - low) * scale + 0.5).clip(0, 255).astype(np.uint8)
+    return Image.fromarray(matrix)
+
+
+def matrix2image(m, path):
+    as_pil_image(m).save(path)
 
 def file2str(path):
     i = open(path)
